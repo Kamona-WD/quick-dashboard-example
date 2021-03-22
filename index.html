@@ -18,7 +18,18 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
   </head>
   <body>
-    <div class="flex min-h-screen font-sans antialiased bg-gray-100" x-data="setup()" @resize.window="watchScreen()">
+    <div
+      class="flex min-h-screen font-sans antialiased bg-gray-100"
+      x-data="setup()"
+      x-init="$refs.loading.classList.add('hidden');"
+      @resize.window="watchScreen()"
+    >
+      <div
+        x-ref="loading"
+        class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-blue-500"
+      >
+        Loading.....
+      </div>
       <!-- Sidebar -->
       <nav
         x-transition:enter="transform transition-transform"
@@ -129,7 +140,7 @@
       <div class="flex flex-col flex-1 h-screen px-4 pb-4 overflow-y-scroll">
         <!-- Page header -->
         <header
-          class="sticky top-0 z-10 flex items-center justify-between flex-shrink-0 px-4 py-2 bg-white rounded-lg shadow-md xl:top-4"
+          class="sticky top-0 z-10 flex items-center justify-between flex-shrink-0 px-4 py-2 -mx-4 bg-white shadow-md xl:-mx-0 xl:rounded-lg xl:top-4"
         >
           <div class="flex items-center space-x-6">
             <!-- Mobile sidebar button -->

@@ -626,6 +626,11 @@ video {
   background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
 }
 
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
+}
+
 .bg-indigo-500 {
   --tw-bg-opacity: 1;
   background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
@@ -828,6 +833,11 @@ video {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.-mx-4 {
+  margin-left: -1rem;
+  margin-right: -1rem;
 }
 
 .mr-2 {
@@ -1199,6 +1209,10 @@ video {
   z-index: 30;
 }
 
+.z-50 {
+  z-index: 50;
+}
+
 .gap-4 {
   gap: 1rem;
 }
@@ -1442,12 +1456,21 @@ video {
 }
 
 @media (min-width: 1280px) {
+  .xl\:rounded-lg {
+    border-radius: 0.5rem;
+  }
+
   .xl\:hidden {
     display: none;
   }
 
   .xl\:m-4 {
     margin: 1rem;
+  }
+
+  .xl\:-mx-0 {
+    margin-left: 0px;
+    margin-right: 0px;
   }
 
   .xl\:static {
