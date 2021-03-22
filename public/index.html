@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="icon" href="assets/images/favicon.ico" />
+    <title>Dashboard Layout Example</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/tailwind.css" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+  </head>
+  <body>
+    <div class="flex min-h-screen font-sans antialiased bg-gray-100" x-data="setup()" @resize.window="watchScreen()">
+      <!-- Sidebar -->
+      <nav
+        x-transition:enter="transform transition-transform"
+        x-transition:enter-start="-translate-x-full"
+        x-transition:enter-end="translate-x-0"
+        x-transition:leave="transform transition-transform"
+        x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="-translate-x-full"
+        x-show="sideOpen"
+        class="fixed inset-y-0 z-20 flex flex-col flex-shrink-0 w-64 bg-white rounded-lg shadow-md xl:m-4 xl:static"
+      >
+        <!-- Sidebar header -->
+        <div class="relative flex items-center justify-center flex-shrink-0 h-24">
+          <!-- Mobile close sidebar button -->
+          <button
+            @click="sideOpen = false"
+            class="absolute flex items-center justify-center p-1 rounded-lg top-2 right-2 xl:hidden focus:outline-none focus:ring"
+          >
+            <span class="sr-only">Close menu</span>
+            <svg
+              aria-hidden="true"
+              class="w-6 h-6 text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <!-- Logo -->
+          <a href="#" class="text-3xl font-semibold text-blue-700"> PG </a>
+        </div>
+        <!-- Links -->
+        <div class="flex-1">
+          <a
+            href="#"
+            class="flex items-center px-4 py-2 space-x-3 text-white bg-gradient-to-r from-blue-700 to-blue-300"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+            <span>Dashboard</span>
+          </a>
+        </div>
+
+        <div class="flex-shrink-0 p-4 space-y-2">
+          <span class="text-sm text-gray-600">Author links</span>
+          <a
+            href="https://github.com/Kamona-WD"
+            target="_blank"
+            class="block text-indigo-600 hover:text-indigo-900 hover:underline"
+          >
+            Github Account
+          </a>
+          <a href="#" target="_blank" class="block text-indigo-600 hover:text-indigo-900 hover:underline">
+            Twitter Account
+          </a>
+          <a
+            href="https://github.com/Kamona-WD/quick-dashboard-example"
+            target="_blank"
+            class="block text-indigo-600 hover:text-indigo-900 hover:underline"
+          >
+            Github Repo
+          </a>
+        </div>
+        <!-- Footer -->
+        <div class="flex-shrink-0">
+          <button
+            class="flex items-center justify-center w-full px-4 py-2 text-white transition-all rounded-b-lg bg-gradient-to-tr from-blue-700 to-blue-300 hover:from-blue-300 hover:to-blue-700 focus:outline-none focus:ring"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-6 h-6 mr-2"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </nav>
+      <div class="flex flex-col flex-1 h-screen px-4 pb-4 overflow-y-scroll">
+        <!-- Page header -->
+        <header
+          class="sticky top-0 z-10 flex items-center justify-between flex-shrink-0 px-4 py-2 bg-white rounded-lg shadow-md xl:top-4"
+        >
+          <div class="flex items-center space-x-6">
+            <!-- Mobile sidebar button -->
+            <button
+              @click="sideOpen = !sideOpen"
+              class="flex items-center justify-center p-1 text-gray-400 transition-colors rounded-lg hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring"
+            >
+              <span class="sr-only">Open menu</span>
+              <svg
+                aria-hidden="true"
+                class="w-8 h-8"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+
+            <!-- Search button -->
+            <button
+              @click="isSearchModalOpen = true; $nextTick(() => { $refs.searchInput.focus()});"
+              class="flex items-center justify-center p-1 text-gray-400 transition-colors rounded-lg hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring"
+            >
+              <span class="sr-only">Open search box</span>
+              <svg
+                aria-hidden="true"
+                class="w-7 h-7"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Mobile sub header button -->
+          <button
+            @click="isMobileSubMenuOpen = !isMobileSubMenuOpen"
+            class="flex items-center justify-center p-1 rounded-lg md:hidden focus:outline-none focus:ring"
+          >
+            <span class="sr-only">Open menu</span>
+            <svg
+              aria-hidden="true"
+              class="w-6 h-6 text-gray-600"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+              />
+            </svg>
+          </button>
+
+          <!-- Desktop right buttons -->
+          <div
+            class="fixed hidden space-x-4 bg-white rounded-lg shadow-lg inset-x-4 md:static md:flex md:items-center md:shadow-none md:bg-transparent"
+          >
+            <!-- Notifications button -->
+            <button class="relative p-1 text-gray-400 rounded-full hover:text-gray-900 focus:outline-none focus:ring">
+              <span class="sr-only">Notifications</span>
+              <svg
+                aria-hidden="true"
+                class="w-8 h-8"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              <!-- Rounded badge -->
+              <span
+                class="absolute top-0 right-0 flex items-center justify-center w-4 h-4 p-px text-xs text-white bg-red-500 rounded-full"
+              >
+                1
+              </span>
+            </button>
+
+            <!-- User dropdown menu -->
+            <div class="relative" x-data="{ open: false }">
+              <button
+                @click="open = !open"
+                type="button"
+                aria-haspopup="true"
+                :aria-expanded="open ? 'true' : 'false'"
+                class="block transition-opacity duration-200 rounded-full focus:outline-none focus:ring"
+              >
+                <span class="sr-only">User menu</span>
+                <img
+                  class="w-10 h-10 rounded-full"
+                  src="https://avatars.githubusercontent.com/u/57622665?s=460&u=8f581f4c4acd4c18c33a87b3e6476112325e8b38&v=4"
+                  alt="Ahmed Kamel"
+                />
+              </button>
+
+              <!-- Dropdown menu -->
+              <div
+                x-show="open"
+                x-transition:enter="transition-all transform ease-out"
+                x-transition:enter-start="translate-y-1/2 opacity-0"
+                x-transition:enter-end="translate-y-0 opacity-100"
+                x-transition:leave="transition-all transform ease-in"
+                x-transition:leave-start="translate-y-0 opacity-100"
+                x-transition:leave-end="translate-y-1/2 opacity-0"
+                @click.away="open = false"
+                class="absolute right-0 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5"
+                role="menu"
+                aria-orientation="vertical"
+                aria-label="User menu"
+              >
+                <a
+                  href="#"
+                  role="menuitem"
+                  class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+                >
+                  Your Profile
+                </a>
+                <a
+                  href="#"
+                  role="menuitem"
+                  class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+                >
+                  Settings
+                </a>
+                <a
+                  href="#"
+                  role="menuitem"
+                  class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+                >
+                  Logout
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile sub menu -->
+          <div
+            x-transition:enter="transition duration-200 ease-in-out transform"
+            x-transition:enter-start="-translate-y-full opacity-0"
+            x-transition:enter-end="translate-y-0 opacity-100"
+            x-transition:leave="transition duration-300 ease-in-out transform"
+            x-transition:leave-start="translate-y-0 opacity-100"
+            x-transition:leave-end="-translate-y-full opacity-0"
+            x-show="isMobileSubMenuOpen"
+            @click.away="isMobileSubMenuOpen = false"
+            class="absolute flex items-center p-4 bg-white rounded-lg shadow-lg top-16 inset-x-4 md:hidden"
+          >
+            <div class="flex items-center space-x-2">
+              <!-- Notifications button -->
+              <button class="relative p-1 text-gray-400 rounded-full hover:text-gray-900 focus:outline-none focus:ring">
+                <span class="sr-only">Notifications</span>
+                <svg
+                  aria-hidden="true"
+                  class="w-8 h-8"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
+                </svg>
+                <!-- Rounded badge -->
+                <span
+                  class="absolute top-0 right-0 flex items-center justify-center w-4 h-4 p-px text-xs text-white bg-red-500 rounded-full"
+                >
+                  1
+                </span>
+              </button>
+            </div>
+
+            <!-- User avatar button -->
+            <div class="relative ml-auto" x-data="{ open: false }">
+              <button
+                @click="open = !open"
+                type="button"
+                aria-haspopup="true"
+                :aria-expanded="open ? 'true' : 'false'"
+                class="block transition-opacity duration-200 rounded-full focus:outline-none focus:ring"
+              >
+                <span class="sr-only">User menu</span>
+                <img
+                  class="w-10 h-10 rounded-full"
+                  src="https://avatars.githubusercontent.com/u/57622665?s=460&u=8f581f4c4acd4c18c33a87b3e6476112325e8b38&v=4"
+                  alt="Ahmed Kamel"
+                />
+              </button>
+
+              <!-- User dropdown menu -->
+              <div
+                x-show="open"
+                x-transition:enter="transition-all transform ease-out"
+                x-transition:enter-start="translate-y-1/2 opacity-0"
+                x-transition:enter-end="translate-y-0 opacity-100"
+                x-transition:leave="transition-all transform ease-in"
+                x-transition:leave-start="translate-y-0 opacity-100"
+                x-transition:leave-end="translate-y-1/2 opacity-0"
+                @click.away="open = false"
+                class="absolute right-0 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark"
+                role="menu"
+                aria-orientation="vertical"
+                aria-label="User menu"
+              >
+                <a
+                  href="#"
+                  role="menuitem"
+                  class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
+                >
+                  Your Profile
+                </a>
+                <a
+                  href="#"
+                  role="menuitem"
+                  class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
+                >
+                  Settings
+                </a>
+                <a
+                  href="#"
+                  role="menuitem"
+                  class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
+                >
+                  Logout
+                </a>
+              </div>
+            </div>
+          </div>
+        </header>
+        <!-- Main content -->
+        <main class="mt-6 space-y-6">
+          <h1 class="my-4 text-2xl font-semibold text-gray-600">Dashboard</h1>
+          <section class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <h2 class="sr-only">Stats</h2>
+            <div class="flex items-start p-4 space-x-4 bg-white rounded-lg shadow-md">
+              <div class="flex-shrink-0">
+                <span class="block p-2 bg-green-500 rounded-full">
+                  <svg
+                    aria-hidden="true"
+                    class="w-8 h-8 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <div class="flex flex-col flex-1 h-full space-y-4">
+                <div class="flex items-center justify-between flex-shrink-0">
+                  <h3 class="text-base font-semibold text-gray-500">Total Sales</h3>
+                  <span class="text-base font-semibold text-gray-500">3000US</span>
+                </div>
+                <div class="flex items-end justify-between flex-1">
+                  <span class="font-medium text-gray-400">Current month</span>
+                  <span class="font-medium text-green-500">20US</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start p-4 space-x-4 bg-white rounded-lg shadow-md">
+              <div class="flex-shrink-0">
+                <span class="block p-2 bg-red-500 rounded-full">
+                  <svg
+                    aria-hidden="true"
+                    class="w-8 h-8 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <div class="flex flex-col flex-1 h-full space-y-4">
+                <div class="flex items-center justify-between flex-shrink-0">
+                  <h3 class="text-base font-semibold text-gray-500">Total Transaction</h3>
+                  <span class="text-base font-semibold text-gray-500">15</span>
+                </div>
+                <div class="flex items-end justify-between flex-1">
+                  <span class="font-medium text-gray-400">Current month</span>
+                  <span class="font-medium text-red-500">12</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start p-4 space-x-4 bg-white rounded-lg shadow-md">
+              <div class="flex-shrink-0">
+                <span class="block p-2 bg-yellow-500 rounded-full">
+                  <svg
+                    aria-hidden="true"
+                    class="w-8 h-8 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <div class="flex flex-col flex-1 h-full space-y-4">
+                <div class="flex items-center justify-between flex-shrink-0">
+                  <h3 class="text-base font-semibold text-gray-500">Total Invoices</h3>
+                  <span class="text-base font-semibold text-gray-500">1234</span>
+                </div>
+                <div class="flex items-end justify-between flex-1">
+                  <span class="font-medium text-gray-400">Current month</span>
+                  <span class="font-medium text-yellow-500">14</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start p-4 space-x-4 bg-white rounded-lg shadow-md">
+              <div class="flex-shrink-0">
+                <span class="block p-2 bg-indigo-500 rounded-full">
+                  <svg
+                    aria-hidden="true"
+                    class="w-8 h-8 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <div class="flex flex-col flex-1 h-full space-y-4">
+                <div class="flex items-center justify-between flex-shrink-0">
+                  <h3 class="text-base font-semibold text-gray-500">Total Payments Links</h3>
+                  <span class="text-base font-semibold text-gray-500">234</span>
+                </div>
+                <div class="flex items-end justify-between flex-1">
+                  <span class="font-medium text-gray-400">Current month</span>
+                  <span class="font-medium text-indigo-500">45</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="grid grid-cols-1 gap-4 lg:grid-cols-5">
+            <h2 class="sr-only">charts</h2>
+            <!-- Sales report -->
+            <div class="col-span-3 bg-white rounded-lg shadow-md">
+              <div class="p-4 space-x-2 border-b">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Sales Report</h3>
+              </div>
+              <div class="relative h-full p-4 max-h-72">
+                <canvas id="lineChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Invoices chart -->
+            <div class="col-span-2 bg-white rounded-lg shadow-md">
+              <div class="p-4 space-x-2 border-b">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Monthly Invoices</h3>
+              </div>
+              <!-- Chart -->
+              <div class="relative h-full p-4 max-h-72">
+                <canvas id="doughnutChart"></canvas>
+              </div>
+            </div>
+          </section>
+          <section class="grid grid-cols-1 gap-4 lg:grid-cols-5 lg:grid-rows-2">
+            <!-- Customers table -->
+            <div class="overflow-hidden bg-white rounded-lg shadow-md lg:col-span-3 lg:row-start-1">
+              <div class="p-4 border-b">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Last 4 customers</h3>
+              </div>
+              <table class="min-w-full overflow-y-scroll divide-y divide-gray-200 max-h-72">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                    >
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                    >
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <template x-for="i in 4" x-key="i">
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0 w-10 h-10">
+                            <img
+                              class="w-10 h-10 rounded-full"
+                              src="https://avatars.githubusercontent.com/u/57622665?s=460&u=8f581f4c4acd4c18c33a87b3e6476112325e8b38&v=4"
+                              alt=""
+                            />
+                          </div>
+                          <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">Jone Doe</div>
+                            <div class="text-sm text-gray-500">jone.doe@example.com</div>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Transactions chart -->
+            <div class="bg-white rounded-lg shadow-md lg:col-span-3 lg:row-start-2">
+              <div class="p-4 border-b">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Transactions</h3>
+              </div>
+              <div class="relative h-full p-4 max-h-72">
+                <canvas id="barChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Payment methods -->
+            <div class="overflow-hidden bg-white rounded-lg shadow-md lg:col-span-2 lg:row-start-1 lg:row-end-3">
+              <div class="p-4 border-b">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Payment Methods</h3>
+              </div>
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                    >
+                      Type
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                    >
+                      Munber of transication
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                    >
+                      Total value
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <!--  -->
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <!--  -->
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <!--  -->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <!-- Search modal -->
+      <section
+        x-transition:enter="transition"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        x-show="isSearchModalOpen"
+        aria-labelledby="searchLabel"
+        class="fixed inset-0 z-30 flex items-start justify-center p-4 bg-black bg-opacity-50 lg:items-center"
+        x-cloak
+      >
+        <!-- Modal -->
+        <div
+          x-transition:enter="transform transition-transform ease-in-out"
+          x-transition:enter-start="-translate-y-full opacity-0"
+          x-transition:enter-end="translate-y-0 opacity-100"
+          x-transition:leave="transform transition-transform ease-in"
+          x-transition:leave-start="translate-y-0 opacity-100"
+          x-transition:leave-end="-translate-y-full opacity-0"
+          x-show="isSearchModalOpen"
+          x-ref="searchModal"
+          @keydown.escape="isSearchModalOpen = false"
+          @click.away="isSearchModalOpen = false"
+          class="flex flex-col w-full min-h-0 bg-white border shadow-lg sm:max-w-sm md:max-w-md rounded-xl"
+        >
+          <div class="flex items-center justify-between flex-shrink-0 p-4 border-b">
+            <form action="#" role="search">
+              <div class="relative">
+                <label id="searchLabel" for="searchInput" class="absolute inset-y-0 flex items-center justify-center">
+                  <span class="sr-only"> Search </span>
+                  <svg
+                    aria-hidden="true"
+                    class="w-6 h-6 text-gray-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </label>
+                <input
+                  type="text"
+                  id="searchInput"
+                  aria-labelledby="searchLabel"
+                  name="search"
+                  x-ref="searchInput"
+                  class="py-2 pl-10 pr-4 focus:outline-none"
+                  placeholder="Search"
+                />
+              </div>
+            </form>
+            <button
+              @click="isSearchModalOpen = false"
+              class="flex-shrink-0 px-2 py-1 text-sm transition border rounded-md hover:shadow-md focus:outline-none focus:ring focus:ring-primary"
+            >
+              Esc
+              <span class="sr-only">Close search modal</span>
+            </button>
+          </div>
+
+          <!-- Search resualt -->
+          <div class="flex-1 p-4 overflow-y-auto max-h-96">
+            <h2>No recent searches</h2>
+            <div>
+              <!--  -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
