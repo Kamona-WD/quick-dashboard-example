@@ -68,12 +68,6 @@ const lineChart = new Chart(document.getElementById('lineChart'), {
         borderWidth: 2,
         pointRadius: 1,
         pointHoverRadius: 0,
-
-        // label: 'Organic',
-        // backgroundColor: '#0694a2',
-        // borderColor: '#0694a2',
-        // data: [43, 48, 40, 54, 67, 73, 70],
-        // fill: false,
       },
     ],
   },
